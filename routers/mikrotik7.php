@@ -43,7 +43,7 @@ final class Mikrotik7 extends Router {
     }
 
     // Remove blackhole routes
-    $cmd->add('and !blackhole');
+    $cmd->add('and !blackhole and !filtered');
 
     return array($cmd);
   }
