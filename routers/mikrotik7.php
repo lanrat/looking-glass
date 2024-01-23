@@ -139,7 +139,7 @@ final class Mikrotik7 extends Router {
     }
 
     $cmd = new CommandBuilder();
-    $cmd->add('tool traceroute count=1 use-dns=yes');
+    $cmd->add('tool traceroute count=10 use-dns=yes');
 
     if (match_hostname($parameter)) {
       $cmd->add('address=[:resolv '.quote($parameter).']');
