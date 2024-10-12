@@ -57,9 +57,9 @@ final class Mikrotik7 extends Router {
   }
 
   protected function build_aspath_regexp($parameter, $vrf = false) {
-    $commands = array();
+    //$commands = array();
     $cmd = new CommandBuilder();
-
+    /*
     if (!$this->config['disable_ipv6']) {
       $cmd6 = (clone $cmd)->add('ipv6 route print');
       if ($this->config['bgp_detail']) {
@@ -73,15 +73,39 @@ final class Mikrotik7 extends Router {
         $cmd4->add('detail');
       }
       $commands[] = $cmd4->add('where', 'bgp-as-path='.quote($parameter));
+    }*/
+    $cmd->add('routing route print');
+
+    if ($this->config['bgp_detail']) {
+      $cmd->add('detail');
     }
 
-    return $commands;
+    $cmd->add('where', 'bgp.as-path~'.quote($parameter));
+
+    if ($this->has_routing_table_name()) {
+      $cmd->add('and routing-table='.$this->get_routing_table_name());
+    }
+
+    // Remove blackhole routes
+    if (!$this->config['blackhole']) {
+      $cmd->add('and !blackhole');
+    }
+    if (!$this->config['filtered']) {
+      $cmd->add('and !filtered');
+    }
+    if (!$this->config['disabled']) {
+      $cmd->add('and !disabled');
+    }
+
+    //return $commands;
+    return array($cmd);
   }
 
   protected function build_as($parameter, $vrf = false) {
-    $commands = array();
+    //$commands = array();
     $cmd = new CommandBuilder();
 
+/*
     if (!$this->config['disable_ipv6']) {
       $cmd6 = (clone $cmd)->add('ipv6 route print');
       if ($this->config['bgp_detail']) {
@@ -96,8 +120,32 @@ final class Mikrotik7 extends Router {
       }
       $commands[] = $cmd4->add('where', 'bgp-as-path~'.quote($parameter.'\$'));
     }
+ */
+    $cmd->add('routing route print');
 
-    return $commands;
+    if ($this->config['bgp_detail']) {
+      $cmd->add('detail');
+    }
+
+    $cmd->add('where', 'bgp.as-path~'.quote($parameter.'\$'));
+
+    if ($this->has_routing_table_name()) {
+      $cmd->add('and routing-table='.$this->get_routing_table_name());
+    }
+
+    // Remove blackhole routes
+    if (!$this->config['blackhole']) {
+      $cmd->add('and !blackhole');
+    }
+    if (!$this->config['filtered']) {
+      $cmd->add('and !filtered');
+    }
+    if (!$this->config['disabled']) {
+      $cmd->add('and !disabled');
+    }
+
+    return array($cmd);
+    //return $commands;
   }
 
   protected function build_ping($parameter, $vrf = false) {
