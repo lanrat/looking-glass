@@ -1,19 +1,20 @@
 ![Build Status](https://github.com/gmazoyer/looking-glass/workflows/syntax/badge.svg)
-[![Documentation Status](https://readthedocs.org/projects/looking-glass/badge/?version=latest)](http://looking-glass.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/looking-glass/badge/?version=latest)](http://looking-glass.readthedocs.io/)
 
 # Looking Glass
 
 Easy to deploy Looking Glass made in PHP.
 
 The lack of time and funding has slown down this project quite a lot. It is
-still maintained though. If you like it, use it and want its development to
-be faster, feel free to contribute in any way you can.
+still maintained though. If you like it, use it and want to support its
+development, you can sponsor it or contribute in any way you can.
 
 ## Requirements
 
   * Webserver such as Apache 2, or Lighttpd, etc…
   * PHP (>= 8.1) module for the webserver (`libapache2-mod-php` for Apache 2
     for example)
+  * Composer to install dependencies
   * The PDO extension to interact with SQLite for anti-spam feature
     (`php8.2-sqlite3` on Debian for example)
   * The XML package is required as well (`php8.2-xml` on Debian for example)
@@ -39,7 +40,8 @@ For now this looking glass is quite simple. Here you have some features:
     * Nokia
     * OpenBGPd
     * Quagga
-    * Vyatta/VyOS/EdgeOS
+    * Vyatta/EdgeOS
+    * VyOS
   * Support of Telnet and SSH connection to routers using password
     authentication and SSH keys
   * Configurable list of routers
@@ -47,7 +49,7 @@ For now this looking glass is quite simple. Here you have some features:
   * Log all commands in a file
   * Customizable output with regular expressions
   * Configurable list of allowed commands
-  * Custom VRFs (for now only on Juniper routers)
+  * Custom routing instances, aka VRFs (Juniper only, for now)
 
 And here is a list of what this looking glass should be able to do in the
 future:
@@ -59,6 +61,10 @@ Questions? Comments? Join us in the `#looking-glass` Slack channel on
 [NetDev Community](https://netdev.chat/).
 
 ## Configuration
+
+Install [Composer](https://getcomposer.org/) and run `composer install` to
+install dependencies for this project. This step is not necessary if you use
+Docker.
 
 Copy the configuration **config.php.example** file to create a **config.php**
 file. It contains all the values (PHP variables) used to customize the looking

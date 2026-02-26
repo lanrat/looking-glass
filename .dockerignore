@@ -6,6 +6,9 @@ vendor/
 LICENSE
 config.php.example
 config.php
+config.php.example
+mkdocs.yaml
+
 logo.*
 peering_policy.*
 *.db

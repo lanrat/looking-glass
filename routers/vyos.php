@@ -23,13 +23,13 @@ require_once('unix.php');
 require_once('includes/command_builder.php');
 require_once('includes/utils.php');
 
-class Quagga extends UNIX {
+final class Vyos extends UNIX {
   protected static $wrapper = 'vtysh -c';
 
   protected function build_bgp($parameter, $routing_instance = false) {
     $cmd = new CommandBuilder();
     // vytsh commands need to be quoted
-    $cmd->add(self::$wrapper, '"', 'show');
+    $cmd->add(self::$wrapper, '"', 'show bgp');
 
     if (match_ipv6($parameter, false)) {
       $cmd->add('ipv6');
@@ -37,7 +37,7 @@ class Quagga extends UNIX {
     if (match_ipv4($parameter, false)) {
       $cmd->add('ipv4');
     }
-    $cmd->add('bgp unicast', $parameter, '"');
+    $cmd->add($parameter, '"');
 
     return array($cmd);
   }
@@ -46,13 +46,13 @@ class Quagga extends UNIX {
     $commands = array();
     $cmd = new CommandBuilder();
     // vytsh commands need to be quoted
-    $cmd->add(self::$wrapper, '"', 'show');
+    $cmd->add(self::$wrapper, '"', 'show bgp');
 
     if (!$this->config['disable_ipv6']) {
-      $commands[] = (clone $cmd)->add('ipv6 bgp regexp', $parameter, '"');
+      $commands[] = (clone $cmd)->add('ipv6 regexp', $parameter, '"');
     }
     if (!$this->config['disable_ipv4']) {
-      $commands[] = (clone $cmd)->add('ip bgp regexp', $parameter, '"');
+      $commands[] = (clone $cmd)->add('ipv4 regexp', $parameter, '"');
     }
 
     return $commands;
@@ -63,5 +63,3 @@ class Quagga extends UNIX {
     return $this->build_aspath_regexp($parameter, $routing_instance);
   }
 }
-
-// End of quagga.php

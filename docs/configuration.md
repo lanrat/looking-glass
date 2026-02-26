@@ -1,4 +1,4 @@
-# Looking Glass: Configuration Options
+# Configuration Options
 
 ## Format
 
@@ -246,6 +246,12 @@ $config['output']['show_command'] = true;
 ```
 Defines if the command used to get the output should be displayed or not.
 
+```php
+$config['output']['scroll'] = true;
+```
+Defines if the result should be displayed as a scrollable element or a an
+unscrollable element.
+
 ### Logs
 
 ```php
@@ -303,15 +309,25 @@ adding new values.
 ```php
 $config['antispam']['enabled'] = true;
 ```
-
 Enable or disable the built-in anti-spam.
 
 ```php
 $config['antispam']['database_file'] = 'looking-glass.db';
 ```
-
 Change the filename of the SQLite database to use for storing anti-spam
 details.
+
+```php
+$config['antispam']['allow_list'] = array(
+  '2001:db8::/32',
+  '10.0.0.0/8',
+  '100.64.0.0/10',
+  '172.16.0.0/12',
+  '192.168.0.0/16'
+);
+```
+List of IP prefixes for which antispam validation won't be performed. This is
+useful to avoid spam detection for IP addresses known as "safe".
 
 ### CAPTCHA
 
@@ -343,6 +359,24 @@ To use hCAPTCHA.
 
 Defines sitekey and secret, it may be named differently in the CAPTCHA
 documentation.
+
+### Routing Instances
+
+!!! note
+    This feature is currently only available for Juniper Junos devices.
+
+```php
+$config['routing_instances'] => array(
+  'vrf-internet' => 'Internet', 'vrf-mgmt' => 'Management'
+);
+```
+List of routing instances, also known as routing tables or VRFs, available on
+all routers. The list is one of key/value pairs. The key is the unique name of
+the routing instance which will be used in commands sent to routers. The value
+is the name which will be exposed to the users on selection.
+
+The suffixes such as `inet.0` and `inet6.0` can be omitted for Juniper
+devices, only the names of routing instances are needed.
 
 ### Misc.
 

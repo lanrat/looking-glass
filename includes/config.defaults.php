@@ -46,7 +46,7 @@ $config = array(
 
   // Release configuration
   'release' => array(
-    'version' => '2.2.0',
+    'version' => '2.3.0',
     'codename' => 'Established',
     'repository' => 'https://github.com/gmazoyer/looking-glass'
   ),
@@ -76,19 +76,19 @@ $config = array(
     'show_title' => true,
     // Show visitor IP address
     'show_visitor_ip' => true,
-    // Frontpage order you can use: routers, commands, parameter, buttons
-    'order' => array('routers', 'vrfs', 'commands', 'parameter', 'buttons'),
+    // Frontpage order, you can use:
+    // routers, routing instances, commands, parameter, buttons
+    'order' => array(
+      'routers',
+      'routing_instances',
+      'commands',
+      'parameter',
+      'buttons'
+    ),
     // Number of routers to show on frontpage
     'router_count' => 5,
     // Number of commands to show on frontpage (0 scales dynamically)
     'command_count' => 0
-  ),
-
-  'vrfs' => array(
-      // Enable the VRF subsystem + shows VRFs on frontpage.
-      'enabled' => false,
-      // List of VRFs against which lookups can be made.
-      'vrfs' => array()
   ),
 
   // Contact (both null for no contact)
@@ -102,7 +102,9 @@ $config = array(
   // Output control
   'output' => array(
     // Show or hide command in output
-    'show_command' => true
+    'show_command' => true,
+    // Enable or disable scrolling when displaying result
+    'scroll' => true
   ),
 
   // Filters
@@ -121,8 +123,18 @@ $config = array(
 
   // Antispam
   'antispam' => array(
+    // ENable or disable antispam
     'enabled' => true,
-    'database_file' => 'looking-glass.db'
+    // Path to the SQLite database file
+    'database_file' => 'looking-glass.db',
+    // List of prefixes for which antispam won't trigger
+    'allow_list' => array(
+      '2001:db8::/32',
+      '10.0.0.0/8',
+      '100.64.0.0/10',
+      '172.16.0.0/12',
+      '192.168.0.0/16'
+    )
   ),
 
   // Captcha
@@ -146,6 +158,10 @@ $config = array(
     // Logs authentication debug details to the logs file
     'auth_debug' => false
   ),
+
+  // List of routing instances against which lookups can be made
+  // Must be a an array with $key => $value pairs
+  'routing_instances' => array(),
 
   // Misc
   'misc' => array(
