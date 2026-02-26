@@ -24,7 +24,7 @@ require_once('includes/command_builder.php');
 require_once('includes/utils.php');
 
 final class Mikrotik7 extends Router {
-  protected function build_bgp($parameter, $vrf = false) {
+  protected function build_bgp($parameter, $routing_instance = false) {
     if (!is_valid_ip_address($parameter)) {
       throw new Exception('The parameter is not an IP address.');
     }
@@ -38,8 +38,8 @@ final class Mikrotik7 extends Router {
 
     $cmd->add('where', quote($parameter).' in dst-address');
 
-    if ($this->has_routing_table_name()) {
-      $cmd->add('and routing-table='.$this->get_routing_table_name());
+    if ($routing_instance !== false) {
+      $cmd->add('and routing-table='.$routing_instance);
     }
 
     // Remove blackhole routes
@@ -56,7 +56,7 @@ final class Mikrotik7 extends Router {
     return array($cmd);
   }
 
-  protected function build_aspath_regexp($parameter, $vrf = false) {
+  protected function build_aspath_regexp($parameter, $routing_instance = false) {
     //$commands = array();
     $cmd = new CommandBuilder();
     /*
@@ -82,8 +82,8 @@ final class Mikrotik7 extends Router {
 
     $cmd->add('where', 'bgp.as-path~'.quote($parameter));
 
-    if ($this->has_routing_table_name()) {
-      $cmd->add('and routing-table='.$this->get_routing_table_name());
+    if ($routing_instance !== false) {
+      $cmd->add('and routing-table='.$routing_instance);
     }
 
     // Remove blackhole routes
@@ -101,7 +101,7 @@ final class Mikrotik7 extends Router {
     return array($cmd);
   }
 
-  protected function build_as($parameter, $vrf = false) {
+  protected function build_as($parameter, $routing_instance = false) {
     //$commands = array();
     $cmd = new CommandBuilder();
 
@@ -129,8 +129,8 @@ final class Mikrotik7 extends Router {
 
     $cmd->add('where', 'bgp.as-path~'.quote($parameter.'\$'));
 
-    if ($this->has_routing_table_name()) {
-      $cmd->add('and routing-table='.$this->get_routing_table_name());
+    if ($routing_instance !== false) {
+      $cmd->add('and routing-table='.$routing_instance);
     }
 
     // Remove blackhole routes
@@ -148,7 +148,7 @@ final class Mikrotik7 extends Router {
     //return $commands;
   }
 
-  protected function build_ping($parameter, $vrf = false) {
+  protected function build_ping($parameter, $routing_instance = false) {
     if (!is_valid_destination($parameter)) {
       throw new Exception('The parameter is not an IP address or a hostname.');
     }
@@ -175,13 +175,13 @@ final class Mikrotik7 extends Router {
       }
     }
 
-    if ($this->has_routing_table_name()) {
-      $cmd->add('vrf='.$this->get_routing_table_name());
+    if ($routing_instance !== false) {
+      $cmd->add('vrf='.$routing_instance);
     }
 
     return array($cmd);
   }
-  protected function build_traceroute($parameter, $vrf = false) {
+  protected function build_traceroute($parameter, $routing_instance = false) {
     if (!is_valid_destination($parameter)) {
       throw new Exception('The parameter is not an IP address or a hostname.');
     }
@@ -208,8 +208,8 @@ final class Mikrotik7 extends Router {
       }
     }
 
-    if ($this->has_routing_table_name()) {
-      $cmd->add('vrf='.$this->get_routing_table_name());
+    if ($routing_instance !== false) {
+      $cmd->add('vrf='.$routing_instance);
     }
 
     return array($cmd);
