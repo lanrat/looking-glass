@@ -57,23 +57,7 @@ final class Mikrotik7 extends Router {
   }
 
   protected function build_aspath_regexp($parameter, $routing_instance = false) {
-    //$commands = array();
     $cmd = new CommandBuilder();
-    /*
-    if (!$this->config['disable_ipv6']) {
-      $cmd6 = (clone $cmd)->add('ipv6 route print');
-      if ($this->config['bgp_detail']) {
-        $cmd6->add('detail');
-      }
-      $commands[] = $cmd6->add('where', 'bgp-as-path='.quote($parameter));
-    }
-    if (!$this->config['disable_ipv4']) {
-      $cmd4 = (clone $cmd)->add('ip route print');
-      if ($this->config['bgp_detail']) {
-        $cmd4->add('detail');
-      }
-      $commands[] = $cmd4->add('where', 'bgp-as-path='.quote($parameter));
-    }*/
     $cmd->add('routing route print');
 
     if ($this->config['bgp_detail']) {
@@ -97,30 +81,11 @@ final class Mikrotik7 extends Router {
       $cmd->add('and !disabled');
     }
 
-    //return $commands;
     return array($cmd);
   }
 
   protected function build_as($parameter, $routing_instance = false) {
-    //$commands = array();
     $cmd = new CommandBuilder();
-
-/*
-    if (!$this->config['disable_ipv6']) {
-      $cmd6 = (clone $cmd)->add('ipv6 route print');
-      if ($this->config['bgp_detail']) {
-        $cmd6->add('detail');
-      }
-      $commands[] = $cmd6->add('where', 'bgp-as-path~'.quote($parameter.'\$'));
-    }
-    if (!$this->config['disable_ipv4']) {
-      $cmd4 = (clone $cmd)->add('ip route print');
-      if ($this->config['bgp_detail']) {
-        $cmd4->add('detail');
-      }
-      $commands[] = $cmd4->add('where', 'bgp-as-path~'.quote($parameter.'\$'));
-    }
- */
     $cmd->add('routing route print');
 
     if ($this->config['bgp_detail']) {
@@ -216,4 +181,4 @@ final class Mikrotik7 extends Router {
   }
 }
 
-// End of mikrotik.php
+// End of mikrotik7.php
